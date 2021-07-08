@@ -1,0 +1,37 @@
+import java.util.Scanner;
+
+public class office_management {
+
+	private static Scanner scan;
+
+	public static void main(String[] args) {
+		
+		System.out.println("1:Login As Head");
+		System.out.println("2:Login As Employee"); 
+		System.out.print("Waiting for user input... :");
+		scan = new Scanner(System.in);
+		int select = scan.nextInt();
+		System.out.print("\033[H\033[2J");  
+		if(select==1) {
+			
+			System.out.print("Enter the usename :");
+			String user = scan.next();
+		//	System.out.print("Enter the Password :");
+			String pass= scan.next();
+			Head h = new Head(user,pass);
+			if(h.getUsername()=="Mustafa" && h.getPassword()=="1234")
+			{
+				System.out.println("Dd");
+			}
+			else {
+				System.out.println("Wrong useraname or password!");
+				
+			}
+		}
+		else if(select==2) {
+			
+		}
+
+	}
+
+}

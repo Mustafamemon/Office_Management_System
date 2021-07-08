@@ -1,0 +1,85 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Head extends Employee {
+	private String username1;
+	private String password1;
+	private Scanner scan;
+
+	public String getUsername() {
+		return username1;
+	}
+
+	public void setUsername(String username) {
+		this.username1 = username;
+	}
+
+	public String getPassword() {
+		return password1;
+	}
+
+	public void setPassword(String password) {
+		this.password1 = password;
+	}
+
+	public Head(String username, String password) {
+		this.username1 = username;
+		this.password1 = password;
+	}
+
+	public void Assigned() throws IOException {
+		String user=" ", proj=" ";
+		System.out.println("Free Project");
+		Display_Projects("Projects.txt");
+
+		while (true) {
+			System.out.println("Enter Project name to Assign");
+			scan = new Scanner(System.in);
+			proj = scan.next();
+			if (search1(proj))
+				break;
+			else {
+				System.out.println("Project name not found!");
+				System.out.print("Re-");
+
+			}
+		}
+		
+		//proj += ".txt";
+		FileWriter Assign = new FileWriter("E:\\Java_Project\\Office_Management\\" + proj+".txt", true);
+		System.out.println("Free Employees");
+		Display_Empployee("Employee.txt");
+		System.out.println("Enter the number of employee : ");
+		int n = scan.nextInt();
+		for (int i = 0; i < n; i++) {
+			while (true) {
+				System.out.printf("Enter %d Employee UserName : ", i + 1);
+				scan = new Scanner(System.in);
+				user = scan.next();
+				if (search(user," "))
+					break;
+				else {
+					System.out.println("Username not found!");
+					System.out.print("Re-");
+				}
+			}
+			String newLine = System.getProperty("line.separator");
+			String pass=delEmployee(user, 0);
+			delProject(proj, 0);
+			addProjects("Assign_Projects.txt",proj);
+			addEmployee("Assign_Employee.txt",user,pass);
+			// Display_Empployee_detail(user);
+			FileWriter Notification = new FileWriter("E:\\Java_Project\\Office_Management\\" +user+"Alert.txt",true);
+			Notification.write(newLine+"You are Asssigned with Project  : "+proj);
+			Notification.close();
+			
+			System.out.println();
+
+			Assign.write(" "+user);
+		}
+		Assign.close();
+		
+
+	}
+}

@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class office_management {
+
+	public static void main(String[] args) {
+		
+		System.out.println("1:Login As Head");
+		System.out.println("2: Login As Employee");
+		Scanner scan = new Scanner(System.in);
+		int select = scan.nextInt();
+		if(select==1)
+		{
+			System.out.println("Welcome!");
+		}
+		else if(select==2) {
+			System.out.println("Wel");
+		}
+
+	}
+
+}

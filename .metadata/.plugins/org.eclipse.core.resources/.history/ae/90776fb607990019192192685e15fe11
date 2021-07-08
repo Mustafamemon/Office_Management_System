@@ -1,0 +1,190 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Projects {
+	private Employee e;
+	private Scanner scan;
+	private Scanner scanner;
+	private Employee E;
+
+	public Employee getE() {
+		return e;
+	}
+
+	public void setE(Employee e) {
+		this.e = e;
+	}
+
+	public void Display_Projects(String Filename) throws FileNotFoundException {
+		File file = new File("E:\\Java_Project\\Office_Management\\" + Filename);
+		if (file.exists()) {
+			scan = new Scanner(file);
+			if (!scan.hasNextLine())
+				System.out.println("No Data Found");
+			while (scan.hasNextLine()) {
+				System.out.println(scan.next());
+			}
+			scan.close();
+		} else
+			System.out.println("No Data Found");
+	}
+
+	public boolean search1(String name) throws FileNotFoundException {
+		File file = new File("E:\\Java_Project\\Office_Management\\Projects.txt");
+		if (file.exists()) {
+			scan = new Scanner(file);
+			while (scan.hasNextLine()) {
+				if (scan.next().equals(name)) {
+					scan.close();
+					return true;
+				}
+			}
+			scan.close();
+		}
+		file = new File("E:\\Java_Project\\Office_Management\\Assign_Projects.txt");
+		if (file.exists()) {
+			scan = new Scanner(file);
+			while (scan.hasNextLine()) {
+				if (scan.next().equals(name)) {
+					scan.close();
+					return true;
+				}
+			}
+			scan.close();
+		}
+		return false;
+	}
+
+	public void addProjects(String Filename, String name) throws IOException {
+		String newLine = System.getProperty("line.separator");
+		int f = 0;
+		while (true) {
+			if (name.equals(" ")) {
+				f = 1;
+				System.out.print("Enter project name  : ");
+				scan = new Scanner(System.in);
+				name = scan.next();
+			}
+			if (search1(name)) {
+				System.out.println("Already Exist!");
+				name = " ";
+			} else {
+
+				FileWriter project = new FileWriter("E:\\Java_Project\\Office_Management\\" + Filename, true);
+				project.write(newLine);
+				project.write(name);
+				if (f == 1)
+					System.out.println("Sucessfully Added!");
+				project.close();
+				break;
+			}
+		}
+
+	}
+
+	public void delProject(String name, int f) throws IOException {
+		String newLine = System.getProperty("line.separator");
+		String user;
+		int flag = 0;
+		File file = new File("E:\\Java_Project\\Office_Management\\Projects.txt");
+		if (file.exists()) {
+			FileWriter writer = new FileWriter("E:\\Java_Project\\Office_Management\\Projectstemp.txt", true);
+			scan = new Scanner(file);
+			while (scan.hasNextLine()) {
+				user = scan.next();
+				if (user.equals(name)) {
+					flag = 1;
+					if (f == 1)
+						System.out.println("Sucessfully Deleted!");
+				} else {
+					writer.write(newLine + user);
+				}
+			}
+			writer.close();
+			scan.close();
+			file.delete();
+			File tempfile = new File("E:\\Java_Project\\Office_Management\\Projectstemp.txt");
+			tempfile.renameTo(file);
+		}
+		if (flag == 0) {
+			file = new File("E:\\Java_Project\\Office_Management\\Assign_Projects.txt");
+			if (file.exists()) {
+				scan = new Scanner(file);
+				FileWriter writer = new FileWriter("E:\\Java_Project\\Office_Management\\Projectstemp.txt", true);
+				while (scan.hasNextLine()) {
+					user = scan.next();
+					if (user.equals(name)) {
+						flag = 3;
+						if (f == 1)
+							System.out.println("Do you want delete Assign Projects ?(y/n)");
+						scanner = new Scanner(System.in);
+						String ans = scanner.next();
+						if (ans.equals("y") || ans.equals("Y")) {
+							System.out.println("Sucessfully Deleted!");
+							File file1 = new File("E:\\Java_Project\\Office_Management\\" + name + ".txt");
+							scanner = new Scanner(file1);
+							E = new Employee();
+							String n = scanner.nextLine();
+							E.freeEmployee(n);
+							scanner.close();
+							file1.delete();
+						} else {
+							writer.write(newLine + user);
+						}
+
+					} else {
+						writer.write(newLine + user);
+					}
+				}
+				scan.close();
+				writer.close();
+				file.delete();
+				File tempfile = new File("E:\\Java_Project\\Office_Management\\Projectstemp.txt");
+				tempfile.renameTo(file);
+			}
+		}
+		if (flag == 0)
+			System.out.println("Data not found!");
+
+	}
+
+	public void Display_project_detail(String Filename) throws FileNotFoundException {
+		File file = new File("E:\\Java_Project\\Office_Management\\" + Filename + ".txt");
+		if (file.exists()) {
+			scan = new Scanner(file);
+			scan.nextLine();
+			if (!scan.hasNextLine())
+				System.out.println("No Data Found");
+			while (scan.hasNextLine()) {
+				System.out.println(scan.next());
+			}
+			scan.close();
+		} else
+			System.out.println("File Not Found");
+	}
+
+	public void freeProject(String Filename, String user) throws IOException {
+		String newLine = System.getProperty("line.separator");
+		File file = new File("E:\\Java_Project\\Office_Management\\" + Filename + ".txt");
+		if (file.exists()) {
+			FileWriter writer = new FileWriter("E:\\Java_Project\\Office_Management\\"+Filename+"temp.txt", true);
+			scan = new Scanner(file);
+			String n=scan.nextLine();
+			if(!(n.split(" ").equals(user)))
+				writer.write(" "+scan.next());
+			while (scan.hasNextLine()) {
+				writer.write(newLine+scan.next());
+			}
+			writer.close();
+			scan.close();
+			file.delete();
+			File tempfile = new File("E:\\Java_Project\\Office_Management\\"+Filename+"temp.txt");
+			tempfile.renameTo(file);
+		} else
+			System.out.println("File not found");
+	}
+
+}

@@ -1,0 +1,87 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class office_management {
+
+	private static Scanner scan;
+	public static int select;
+
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
+	public static void main(String[] args) throws IOException {
+		do {
+			System.out.println("1:Login As Head");
+			System.out.println("2:Login As Employee");
+			System.out.println("3:Exit");
+			System.out.print("Waiting for user input... :");
+			scan = new Scanner(System.in);
+			select = scan.nextInt();
+			while (select == 1) {
+				System.out.print("Enter username :");
+				String user = scan.next();
+				System.out.print("Enter password :");
+				String pass = scan.next();
+				Head h = new Head(user, pass);
+				if (h.getUsername().equals("Mustafa") && h.getPassword().equals("1234")) {
+					do {
+						System.out.println("1.Add Employee");
+						System.out.println("2.Add Project");
+						System.out.println("3.Del Employee");
+						System.out.println("4.del Project");
+						System.out.println("5.Assigned Project to Employee");
+						System.out.println("6.Display all Data");
+						System.out.println("7.Back");
+						System.out.print("Waiting for user input... :");
+						select = scan.nextInt();
+						if (select == 1) {
+							h.addEmployee();
+						} else if (select == 2) {
+							h.addProjects();
+						} else if (select == 3) {
+							System.out.print("Enter username :");
+							user = scan.next();
+							h.delEmployee(user);
+						}else if (select == 4) {
+							System.out.print("Enter Project name :");
+							user = scan.next();
+							h.delProject(user);
+						} else if (select == 5) {
+
+						} else if (select == 6) {
+							int s;
+							do {
+								System.out.println("1.Employee data");
+								System.out.println("2.Projects data");
+								System.out.println("3.Assigned projects");
+								System.out.println("4.Non-Assigned projects");
+								System.out.println("5.Back");
+								System.out.print("Waiting for user input... :");
+								s = scan.nextInt();
+								if (s == 1) {
+									h.Display_Empployee();
+								} else if (s == 2) {
+									h.Display_Projects();
+								} else if (s == 3) {
+
+								} else if (s == 4) {
+
+								}
+
+							} while (s != 5);
+
+						}
+					} while (select != 7);
+				} else {
+					System.out.println("Wrong username or password!!");
+				}
+			}
+			while (select == 2) {
+
+			}
+
+		} while (select != 3);
+	}
+}
